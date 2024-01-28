@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Adventure with Lamita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            margin: 0;
+            padding: 0;
+            background-image: url('path_to_your_downloaded_image.jpg'); /* Replace with the path to the image */
+            background-size: cover;
+            color: #f4e7f8;
+            text-align: center;
+        }
+        .section {
+            display: none;
+            padding: 20px;
+            margin-top: 20px;
+            transition: all 0.5s ease-in-out;
+        }
+        #initialLanding {
+            background-color: rgba(91, 44, 111, 0.8);
+            color: white;
+            display: block;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #a569bd;
+            transform: scale(1.05);
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .countdown-container {
+            padding: 20px;
+            background-color: rgba(142, 68, 173, 0.8);
+            color: white;
+            display: none;
+        }
+        #valentineHeart {
+            background-color: #8e44ad;
+            display: inline-block;
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+        #timer {
+            font-size: 24px;
+            color: #a569bd;
+        }
+    </style>
+</head>
+<body>
+    <div id="audioControl">
+        <button onclick="toggleAudio()">Play/Pause Music</button>
+        <audio id="backgroundMusic" loop>
+            <source src="path_to_your_music_file.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div id="clocks">
+        <div>Time in Houston, TX: <span id="timeHouston"></span></div>
+        <div>Time in Al-Ain, UAE: <span id="timeAbuDhabi"></span></div>
+    </div>
+
+    <div id="initialLanding" class="section">
+        <h1>Welcome to Our Special Valentine's Day Adventure!</h1>
+        <button onclick="showSection('hackedSection')">Begin Adventure</button>
+    </div>
+
+    <div id="hackedSection" class="section">
+        <h1>Alert: Heart Security Breach Detected!</h1>
+        <button onclick="showSection('personalQuestions')">Initiate Security Protocol</button>
+    </div>
+
+    <div id="personalQuestions" class="section">
+        <!-- Personal questions section -->
+        <p>To verify your identity, please answer the following:</p>
+        <p>What's your name? (Hint: I sometimes call you Lamita)</p>
+        <input type="text" id="nameAnswer">
+        <p>When's your birthday? (Hint: You were a gift for your mom)</p>
+        <input type="text" id="dobAnswer">
+        <p>What's one of your favorite memories of us?</p>
+        <input type="text" id="memoryAnswer">
+        <button onclick="checkPersonalInfo()">Submit Answers</button>
+    </div>
+
+    <div id="examNotification" class="section">
+        <p>Identity confirmed! Proceed to the final stage of the Heart's Health Check.</p>
+        <button onclick="showSection('medicalExam')">Commence Medical Analysis</button>
+    </div>
+
+    <div id="medicalExam" class="section">
+        <!-- Medical exam section -->
+        <p>Case Analysis: A patient reports experiencing sudden 'butterflies in the stomach' when thinking about a specific person. What is your diagnosis?</p>
+        <button onclick="showSection('valentineTransition')">Romantic Tummy Flutter Syndrome</button>
+        <button onclick="alert('Incorrect. Please reconsider the symptoms.')">Gastroenteritis</button>
+        <button onclick="alert('Incorrect. Think more romantically!')">Lactose Intolerance</button>
+        <button onclick="alert('Incorrect. This is a matter of the heart!')">Appendicitis</button>
+    </div>
+
+    <div id="valentineTransition" class="section">
+        <p>Impressive! You've aced the clinical case. Now, are you ready for the final question, upon which your yearly grade – and something even more important – depends?</p>
+        <button onclick="showSection('valentineQuestion')">I'm Ready</button>
+    </div>
+
+    <div id="valentineQuestion" class="section">
+        <div id="valentineHeart">
+            <h2>Will you be my Valentine, Lamita?</h2>
+            <button onclick="showSection('eyeTest')">Yes, absolutely!</button>
+            <button onclick="noResponse()">Maybe next time?</button>
+        </div>
+    </div>
+
+    <div id="eyeTest" class="section">
+        <!-- Eye test section -->
+        <p>Final Assessment: As a prospective medical expert, confirm your visual acuity. Interpret the blurred inscription.</p>
+        <img src="path-to-your-image.jpg" alt="Blurry Image" style="max-width: 100%; height: auto;">
+        <input type="text" id="visionInput" placeholder="Document your observation...">
+        <button onclick="checkVision()">Submit Observation</button>
+    </div>
+
+    <div id="countdown" class="countdown-container">
+        <!-- Countdown section -->
+        <h2>Countdown to Valentine's Day 2024</h2>
+        <div id="timer"></div>
+        <input type="text" id="giftPassword" placeholder="Enter password to unlock the gift...">
+        <button onclick="revealGift()">Unlock Gift</button>
+        <div id="giftImage"></div>
+    </div>
+
+   <script>
+        function showSection(sectionId) {
+            var sections = document.getElementsByClassName('section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function checkPersonalInfo() {
+            var nameAnswer = document.getElementById('nameAnswer').value.toLowerCase();
+            var dobAnswer = document.getElementById('dobAnswer').value.toLowerCase();
+            var memoryAnswer = document.getElementById('memoryAnswer').value;
+
+            if ((nameAnswer === 'lama' || nameAnswer === 'lamita') && dobAnswer.includes('sep') && dobAnswer.includes('3rd')) {
+                showSection('examNotification');
+            } else {
+                alert('Some answers are not correct. Please try again.');
+            }
+        }
+
+        function noResponse() {
+            alert('No escape from love! Try the Yes button.');
+        }
+
+        function checkVision() {
+            var visionInput = document.getElementById('visionInput').value;
+            if (visionInput.toLowerCase().includes('i love you')) {
+                alert('I love you too, mi amor!');
+                showSection('countdown');
+            } else {
+                alert('Not quite right. The image is a bit blurry, but it’s all about love. Try again!');
+            }
+        }
+
+        var countdownDate = new Date("Feb 14, 2024 00:00:00").getTime();
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countdownDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "It's Valentine's Day!";
+                showSection('countdown');
+            }
+        }, 1000);
+
+        function toggleAudio() {
+            var audio = document.getElementById("backgroundMusic");
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        // Function to update clocks
+        function updateClocks() {
+            var options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            var timeHouston = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Chicago', ...options });
+            var timeAbuDhabi = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', ...options });
+
+            document.getElementById('timeHouston').innerHTML = timeHouston;
+            document.getElementById('timeAbuDhabi').innerHTML = timeAbuDhabi;
+        }
+        setInterval(updateClocks, 1000); // Update the clocks every second
+
+        // Rest of your JavaScript
+        function revealGift() {
+            var password = document.getElementById('giftPassword').value;
+            if (password === 'YourSecretPassword') { // Replace with the actual password
+                document.getElementById('giftImage').innerHTML = '<img src="path-to-your-special-image.jpg" alt="Special Gift">';
+            } else {
+                alert('Incorrect password. Access denied.');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
